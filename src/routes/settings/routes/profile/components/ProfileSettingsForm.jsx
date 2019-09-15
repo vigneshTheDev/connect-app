@@ -13,8 +13,6 @@ import ISOCountries from '../../../../../helpers/ISOCountries'
 
 import './ProfileSettingsForm.scss'
 
-const companySizeRadioOptions = ['1-15', '16-50', '51-500', '500+']
-
 const countries = _.orderBy(ISOCountries, ['name'], ['asc']).map(country => ({
   label: country.name,
   value: country.name,
@@ -209,37 +207,6 @@ class ProfileSettingsForm extends Component {
           </div>
         </div>
         {this.getField('Company name', 'companyName', true)}
-        <div className="field">
-          <div className="label">Company size</div>
-          <TCFormFields.RadioGroup
-            wrapperClass="input-field"
-            type="text"
-            name="companySize"
-            value={this.props.values.settings.companySize}
-            onChange={this.onFieldUpdate}
-            options={companySizeRadioOptions.map((label) => ({option: label, label, value: label}))}
-          />
-        </div>
-        <div className="section-heading">Business address</div>
-        {this.getField('Address', 'address')}
-        {this.getField('City', 'city')}
-        <div className="field">
-          <div className="label">State</div>
-          <div className="zip-container">
-            <TCFormFields.TextInput
-              wrapperClass="input-field"
-              type="text"
-              name="state"
-              onChange={this.onFieldUpdate}
-              value={this.props.values.settings.state || ''}
-            />
-            <div className="zip label">ZIP</div>
-            <TCFormFields.TextInput wrapperClass="input-field zip-input"
-              type="text" maxLength={5} name="zip" value={this.props.values.settings.zip || ''}
-              onChange={this.onFieldUpdate}
-            />
-          </div>
-        </div>
         <div className="field">
           <div className="label">
             <span styleName="fieldLabelText">Country</span>&nbsp;
