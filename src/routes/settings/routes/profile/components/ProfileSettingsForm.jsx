@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import FormsyForm from 'appirio-tech-react-components/components/Formsy'
 import PhoneInput from 'appirio-tech-react-components/components/Formsy/PhoneInput'
+import TimezoneInput from 'appirio-tech-react-components/components/Formsy/TimezoneInput'
 const TCFormFields = FormsyForm.Fields
 const Formsy = FormsyForm.Formsy
 import ProfileSettingsAvatar from './ProfileSettingsAvatar'
@@ -26,6 +27,7 @@ class ProfileSettingsForm extends Component {
       dirty: false,
       businessPhoneValid: true,
       countrySelected: null,
+      countryCodeSelected: null,
       businessPhoneDirty: false,
       countrySelectionDirty: false
     }
@@ -45,6 +47,7 @@ class ProfileSettingsForm extends Component {
     if (country && country.value && this.state.countrySelected !== country.value) {
       this.setState({
         countrySelected: country.value,
+        countryCodeSelected: _.get(_.find(ISOCountries, c => c.name === country.value), 'alpha2'),
         countrySelectionDirty: true
       })
     }
@@ -59,6 +62,7 @@ class ProfileSettingsForm extends Component {
         this.refs.countrySelect.setValue(country.name)
         this.setState({
           countrySelected: country.name,
+          countryCodeSelected: country.alpha2,
         })
       }
 
@@ -235,6 +239,24 @@ class ProfileSettingsForm extends Component {
               this.state.countrySelectionDirty &&
               <div styleName="warningText">Note: Changing the country also updates the country code of business phone.</div>
             }
+          </div>
+        </div>
+        <div className="field">
+          <div className="label">
+            <span styleName="fieldLabelText">Local Timezone</span>&nbsp;
+            <sup styleName="requiredMarker">*</sup>
+          </div>
+          <div className="input-field">
+            <TimezoneInput
+              filterCountry={this.state.countryCodeSelected}
+              render={
+                timezoneOptions => (
+                  <FormsySelect
+                    name="timezone" options={timezoneOptions}
+                  />
+                )
+              }
+            />
           </div>
         </div>
         <div className="controls">
